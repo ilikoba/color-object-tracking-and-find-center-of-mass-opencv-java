@@ -54,7 +54,7 @@ public class maincode{
 		Panel panel2 = new Panel();  
 		frame2.setContentPane(panel2);  
 		frame2.setVisible(true);  
-		//treshold penceresi ayarlarý
+		//threshold penceresi ayarlarý
 		JFrame frame4 = new JFrame("Threshold");  
 		frame4.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
 		frame4.setSize(640,480);  
@@ -63,10 +63,12 @@ public class maincode{
 		frame4.setContentPane(panel4);      
 		frame4.setVisible(true);  
 	    VideoCapture capture =new VideoCapture(0); //webcam baþlýyor (çalýþýyor) harici webcam için 1
-		capture.set(10, 0);
-		capture.set(3, 1366);
-	    capture.set(4, 768);
-		capture.set(15, -2);
+		
+		capture.set(3, 640);
+	    capture.set(4, 480);
+		capture.set(15, -4);
+		capture.set(10, 1) ;
+		capture.set(11, 70); 
 		Mat webcam_image=new Mat();  
 		Mat hsv_image=new Mat();  
 		Mat thresholded=new Mat();  
@@ -81,7 +83,7 @@ public class maincode{
 	    Mat distance=new Mat(webcam_image.height(),webcam_image.width(),CvType.CV_8UC1);  
 		List<Mat> lhsv = new ArrayList<Mat>(3);      
 		Mat circles = new Mat(); 
-		Scalar hsv_min = new Scalar(50, 50, 50, 0);  //takip edilecek rengin hsv formatýnda yüzdelikleri
+		Scalar hsv_min = new Scalar(40, 70, 45, 0);  //takip edilecek rengin hsv formatýnda yüzdelikleri
 	    Scalar hsv_max = new Scalar(70, 255, 255, 0);   
 	
 		double[] data=new double[3];  
@@ -119,9 +121,9 @@ public class maincode{
 					data=webcam_image.get(210, 210);  
 					Imgproc.putText(webcam_image,String.format("("+String.valueOf(data[0])+","+String.valueOf(data[1])+","+String.valueOf(data[2])+")"),new Point(30, 30) , 3 //FONT_HERSHEY_SCRIPT_SIMPLEX  
 ,1.0,new Scalar(100,10,10,255),3); 
-					Imgproc.line(webcam_image, new Point(0,384), new Point(1366,384),new Scalar(0,0,255),4);  
-					Imgproc.line(hsv_image, new Point(0,384), new Point(1366,384),new Scalar(0,0,255),4);  
-					Imgproc.line(webcam_image, new Point(400,0), new Point(400,1366),new Scalar(0,255,0),4);
+					Imgproc.line(webcam_image, new Point(0,240), new Point(680,240),new Scalar(0,0,255),1);  
+					Imgproc.line(hsv_image, new Point(0,240), new Point(680,240),new Scalar(0,0,255),1);  
+					Imgproc.line(webcam_image, new Point(320,0), new Point(320,680),new Scalar(0,255,0),1);
 		            
 		            
 				    System.out.println();
@@ -158,7 +160,7 @@ public class maincode{
                                 Moments p = mu.get(i);
                                 int x = (int) (p.get_m10() / p.get_m00());
                                 int y = (int) (p.get_m01() / p.get_m00());
-                                int xval = 400; //kameranýn pixel sayýsýnýn yarýsý (ortasýný bulmak için) 
+                                int xval = 320; //kameranýn pixel sayýsýnýn yarýsý (ortasýný bulmak için) 
                                 int value = xval - x;
                                 System.out. println("value:" + value);
                                 if(value < 0)
